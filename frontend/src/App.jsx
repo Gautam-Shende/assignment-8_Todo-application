@@ -126,7 +126,7 @@ function App() {
           <div className="w-full lg:w-1/2">
             <TodoForm
               onSave={handleSave}
-              editingTodo={editTodo}
+              editTodo={editTodo}
               onCancel={handleCancelEdit}
             />
           </div>

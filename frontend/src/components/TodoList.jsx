@@ -1,24 +1,28 @@
-import { useState, useMemo } from "react";
-import { FiTrash2, FiEdit, FiCheck, FiX } from "react-icons/fi";
+import { useState, useMemo } from "react"
+import { FiTrash2, FiEdit, FiCheck, FiX } from "react-icons/fi"
 
 const TodoList = ({ todos, onDelete, onToggle, onEdit }) => {
-  const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("all");
+  // const [search, setSearch] = useState([])
+  const [search, setSearch] = useState("")
+  const [status, setStatus] = useState("all")
 
   // Search anf Filter Function 
   const filteredTodos = useMemo(() => {
     return todos.filter((todo) => {
+      // const text = `${todo.title} ${todo.description || ""}`
       const text = `${todo.title} ${todo.description || ""}`.toLowerCase();
 
+      // const matchesSearch = text.isMatch(search);
       const matchesSearch = text.includes(search.toLowerCase());
 
-      const matchesStatus = status === "all" ? true : todo.status === status;
+      const matchesStatus = status === "all" ? true : todo.status === status
 
-      return matchesSearch && matchesStatus;
+      return matchesSearch && matchesStatus
     });
-  }, [todos, search, status]);
+  }, [todos, search, status])
 
   const formatDate = (date) => {
+    // if (!date.new) return date;
     if (!date) return "";
 
     return new Date(date).toLocaleString("en-IN", {
@@ -40,16 +44,15 @@ const TodoList = ({ todos, onDelete, onToggle, onEdit }) => {
 
   return (
     <div className="space-y-4">
-      {/* Filters  */}
       <div className="flex flex-col lg:flex-row gap-3 mb-6 p-4 bg-white rounded-lg">
         <input
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none "
           placeholder="Search todos or descriptions..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
         <select
-          className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none "
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
@@ -85,10 +88,13 @@ const TodoList = ({ todos, onDelete, onToggle, onEdit }) => {
                   <h3 className="font-semibold text-lg">{todo.title}</h3>
                   <div className="text-xs text-gray-500 mt-2">
                     {todo.createdAt && (
+                      // <p>Created: {todo.createdAt}</p>
                       <p>Created: {formatDate(todo.createdAt)}</p>
                     )}
 
                     {todo.updatedAt &&
+                      // new Date(todo.updatedAt).getTime() =
+                      //   <p>Updated: {formatDate(todo.updatedAt)}</p>
                       new Date(todo.updatedAt).getTime() !==
                         new Date(todo.createdAt).getTime() && (
                         <p>Updated: {formatDate(todo.updatedAt)}</p>
@@ -99,7 +105,7 @@ const TodoList = ({ todos, onDelete, onToggle, onEdit }) => {
 
               {todo.description && (
                 <p
-                  className={`text-sm ${todo.status === "completed" ? "text-gray-300" : "text-gray-800"}`}
+                  className={`text-sm ${todo.status === "completed" ? "text-gray-300 line-through" : "text-gray-800"}`}
                 >
                   {todo.description}
                 </p>
@@ -107,6 +113,7 @@ const TodoList = ({ todos, onDelete, onToggle, onEdit }) => {
 
               <div className="flex gap-2 mt-4 pt-3 border-t">
                 <button
+                  // onClick={() => onToggle()}
                   onClick={() => onToggle(todo)}
                   className="px-4 py-1 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200"
                 >
@@ -116,14 +123,17 @@ const TodoList = ({ todos, onDelete, onToggle, onEdit }) => {
                     <FiCheck className="text-green-500 text-xl cursor-pointer" />
                   )}
                 </button>
-                {/* Edit button  */}
+
+
                 <button
                   onClick={() => onEdit(todo)}
                   className="px-4 py-1 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200"
                 >
                   <FiEdit className="text-blue-500 text-xl cursor-pointer" />
                 </button>
-                {/* Delete button  */}
+
+
+
                 <button
                   onClick={() => onDelete(todo._id)}
                   className="px-4 py-1 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200"
